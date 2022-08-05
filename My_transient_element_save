@@ -1,0 +1,89 @@
+!   Commands inserted into this file will be executed immediately after the ANSYS /POST1 command.
+
+!   Active UNIT system in Workbench when this object was created:  Metric (mm, kg, N, s, mV, mA)
+!   NOTE:  Any data that requires units (such as mass) is assumed to be in the consistent solver unit system.
+!                See Solving Units in the help system for more information.
+
+
+!   Commands inserted into this file will be executed immediately after the ANSYS /POST1 command.
+
+!   Active UNIT system in Workbench when this object was created:  Metric (mm, kg, N, s, mV, mA)
+!   NOTE:  Any data that requires units (such as mass) is assumed to be in the consistent solver unit system.
+!                See Solving Units in the help system for more information.
+
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!number = 24       !число элементов для вывода результатов
+number = 10       !число элементов для вывода результатов
+!number = 1       !число элементов для вывода результатов
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+/NOPR            !данные, введенные для анализа, не передаются в выходной файл
+
+*dim,number_of_elem,array,number                    !объявление массива числа элементов для выводв результатов
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!number_of_elem(1)= 31609,31708,32222,36246,77252,77253,77525,98801,102671,102756,103300,105543,106981,107312,109139,109371,110686,113342,113343,113596,158140,163902,163912,163916
+  !перечисление номеров элементов для вывода результатов
+number_of_elem(1)= 31609,31708,32222,36246,77252,77253,77525,98801,102671,102756
+!number_of_elem(1)= 31609
+  !перечисление номеров элементов для вывода результатов
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+*dim,set_numbers,array,77   !бъявление массива числа шагов для выводв результатов
+set_numbers(1)= 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,43,44,45,46,51,52,53,54,55,56,57,58,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,80,81,84,85,86,87,88,89,90,91
+
+
+*dim,lliisstt,array,number,7  !задание массива/присвоение имени массиву/тип массива - матрица/строка - номер элемента/столбцов - 7
+
+set,first                  !чтение набора данных из файла результатов/первый шаг решения
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*cfopen,'D:\test_out',txt !открыть файл для записи/имя файла/расширение файла
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+j=1
+*do,n,1,77           !цикл/имя цикла/начальное значение цикла/конечное значение цикла
+SET,set_numbers(n),LAST,1,
+  *do,i,1,number  !цикл с выбранными элементами от 1-ого до последнего из файла num_of_element  
+       !*
+    AVPRIN,0, ,           !усреднение результата в элементе по общему узлу (усреднение по умол. не elemental mean?)
+    ETABLE, ,BFE,TEMP     
+    !*
+    AVPRIN,0, , 
+    ETABLE, ,S,EQV  
+    !*  
+    AVPRIN,0, , 
+    ETABLE, ,EPEL,EQV   
+    !*     
+    AVPRIN,0, , 
+    ETABLE, ,EPPL,EQV   
+    !*       
+    AVPRIN,0, , 
+    ETABLE, ,EPTO,EQV   
+    !*
+      
+    ETABLE,REFL !заполнение таблицы/заполнить все таблицы определенные до этого с помощью ETABLE
+ 
+    *GET,temm,ETAB,1,ELEM,number_of_elem(i) !получить/название получаемого результата/из списков ETABLE/присвоение номера получаемому результату/работать с элементами/номер i-ого элемента
+    *GET,seqv,ETAB,2,ELEM,number_of_elem(i) 
+    *GET,eeeqv,ETAB,3,ELEM,number_of_elem(i)
+    *GET,epeqv,ETAB,4,ELEM,number_of_elem(i)
+    *GET,eteqv,ETAB,5,ELEM,number_of_elem(i)
+    !lliisstt(i,1)=set_numbers(n)                 !заполнение таблички в семь столбцов - семь основных параметров для каждого следующего элемента КЭМ,         
+    !lliisstt(i,2)=number_of_elem(i) !каждая следующая строчка - номер каждого следующего элемента КЭМ
+    !lliisstt(i,3)=temm
+    !lliisstt(i,4)=seqv
+    !lliisstt(i,5)=eeeqv
+    !lliisstt(i,6)=epeqv
+    !lliisstt(i,7)=eteqv
+  
+  *VWRITE,n,number_of_elem(i),temm,seqv,eeeqv,epeqv,eteqv
+	%8i%13.5e%13.5e%13.5e%13.5e%13.5e%13.5e
+*enddo
+!*vwrite,lliisstt(1,1),lliisstt(1,2),lliisstt(1,3),lliisstt(1,4),lliisstt(1,5),lliisstt(1,6),lliisstt(1,7) !записать файл в следующей последовательности/имя массива(i;j)
+!(' 'f4.0,' 'f8.0,' 'f4.0,' 'E10.5,' 'E15.7,' 'E10.5,' 'E10.5,) 
+*enddo
+*cfclos !закончить запись файла
