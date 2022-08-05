@@ -1,0 +1,137 @@
+! Вычитка напряжений, упругих, пластических и полных деформаций 
+! В ЭЛЕМЕНТЕ из файла решения по шагам
+
+nst1=    1       !номер первого шага
+nst2=    270      !номер последнего шага
+nn=    24275     !номер элемента
+/NOPR
+
+*CFOPEN,el_04_04_24275,dat, , 
+
+SET,FIRST 
+
+*do,n,nst1,nst2
+	SET,n,LAST,1, 
+	AVPRIN,0, , 
+	ETABLE, ,BFE,TEMP   
+	!*  
+	AVPRIN,0, , 
+	ETABLE, ,S,1
+	!*  
+	AVPRIN,0, , 
+	ETABLE, ,S,2
+	!*  
+	AVPRIN,0, , 
+	ETABLE, ,S,3
+	!*  
+	AVPRIN,0, , 
+	ETABLE, ,S,EQV  
+	!*  
+	AVPRIN,0, , 
+	ETABLE, ,EPEL,1 
+	!*  
+	AVPRIN,0, , 
+	ETABLE, ,EPEL,2 
+	!*  
+	AVPRIN,0, , 
+	ETABLE, ,EPEL,3 
+	!*  
+	AVPRIN,0, , 
+	ETABLE, ,EPEL,EQV   
+	!*  
+	AVPRIN,0, , 
+	ETABLE, ,EPPL,1 
+	!*  
+	AVPRIN,0, , 
+	ETABLE, ,EPPL,2 
+	!*  
+	AVPRIN,0, , 
+	ETABLE, ,EPPL,3 
+	!*  
+	AVPRIN,0, , 
+	ETABLE, ,EPPL,EQV   
+	!*  
+	AVPRIN,0, , 
+	ETABLE, ,EPTO,1 
+	!*  
+	AVPRIN,0, , 
+	ETABLE, ,EPTO,2 
+	!*  
+	AVPRIN,0, , 
+	ETABLE, ,EPTO,3 
+	!*  
+	AVPRIN,0, , 
+	ETABLE, ,EPTO,EQV   
+	!*  
+
+	ETABLE,REFL  
+
+	*GET,temm,ETAB,1,ELEM,nn
+	*GET,s1,ETAB,2,ELEM,nn
+	*GET,s2,ETAB,3,ELEM,nn
+	*GET,s3,ETAB,4,ELEM,nn
+	*GET,seqv,ETAB,5,ELEM,nn
+
+	*GET,ee1,ETAB,6,ELEM,nn
+	*GET,ee2,ETAB,7,ELEM,nn
+	*GET,ee3,ETAB,8,ELEM,nn
+	*GET,eeeqv,ETAB,9,ELEM,nn
+
+	*GET,ep1,ETAB,10,ELEM,nn
+	*GET,ep2,ETAB,11,ELEM,nn
+	*GET,ep3,ETAB,12,ELEM,nn
+	*GET,epeqv,ETAB,13,ELEM,nn
+
+	*GET,et1,ETAB,14,ELEM,nn
+	*GET,et2,ETAB,15,ELEM,nn
+	*GET,et3,ETAB,16,ELEM,nn
+	*GET,eteqv,ETAB,17,ELEM,nn
+
+
+
+
+
+	*VWRITE,n
+	%/%3i  step
+	*VWRITE,nn,temm
+	%8i%9.1f
+
+
+	*VWRITE,nn,s1,s2,s3,seqv
+	%8i%13.5e%13.5e%13.5e%13.5e
+	*VWRITE,nn,ee1,ee2,ee3,eeeqv
+	%8i%13.5e%13.5e%13.5e%13.5e
+	*VWRITE,nn,ep1,ep2,ep3,epeqv
+	%8i%13.5e%13.5e%13.5e%13.5e
+	*VWRITE,nn,et1,et2,et3,eteqv
+	%8i%13.5e%13.5e%13.5e%13.5e
+
+*enddo
+
+*CFCLOS
+
+n= 
+nn= 
+
+temm=
+
+s1= 
+s2= 
+s3= 
+seqv= 
+
+ee1= 
+ee2= 
+ee3= 
+eeeqv= 
+
+ep1= 
+ep2= 
+ep3= 
+epeqv= 
+
+et1= 
+et2= 
+et3= 
+eteqv= 
+
