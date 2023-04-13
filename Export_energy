@@ -1,0 +1,21 @@
+/post1
+*cfopen,energyRVD_en,out
+*vwrite,'POINT', 'MODE', 'SENE', 'KENE'
+ (A,A,A,A)
+*cfclos
+resume
+esel,s,elem,,3643245
+*do,numset,1,13
+*do,jjj,1,260
+  set,numset,jjj
+  etab,tene,tene
+  etab,kene,kene
+  ssum
+  *get,tene1,ssum,,ITEM,tene
+  *get,kene1,ssum,,ITEM,kene
+  *cfopen,energyRVD_en,out,,APPEND
+  *vwrite,numset,jjj,sene1,kene1
+  (F4.0,F4.0,2E12.4)
+  *cfclos
+*enddo
+*enddo
