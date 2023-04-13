@@ -1,0 +1,263 @@
+!   Commands inserted into this file will be executed immediately after the ANSYS /POST1 command.
+
+!   Active UNIT system in Workbench when this object was created:  Metric (mm, kg, N, s, mV, mA)
+!   NOTE:  Any data that requires units (such as mass) is assumed to be in the consistent solver unit system.
+!                See Solving Units in the help system for more information.
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+number = 5       !число элементов для вывода результатов
+all_steps=5	!Общее чисо шагов
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+/NOPR            !данные, введенные для анализа, не передаются в выходной файл
+
+*dim,number_of_elem,array,number                    !объявление массива числа элементов для выводв результатов
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+number_of_elem(1)= 50, 10, 15, 20, 50 !номера элементов для анализа
+
+
+razmer=all_steps*number !размер итогового массива
+*dim,set_numbers,array,all_steps   !бъявление массива числа шагов для выводв результатов
+!инициализация маасива шагов
+*do,i,1,all_steps
+    set_numbers(i)=i
+*ENDDO
+
+*dim,lliisstt,array,razmer,43  !задание массива/присвоение имени массиву/тип массива - матрица/строка - номер элемента/столбцов - 43
+
+set,first                  !чтение набора данных из файла результатов/первый шаг решения
+
+st=1
+*do, i,1,number
+ESEL,S,ELEM,,number_of_elem(i)
+*do,n,1,all_steps  !цикл с выбранными элементами от 1-ого до последнего из файла num_of_element 
+SET,set_numbers(n),LAST,1,
+    !*1
+    AVPRIN,0, ,           !усреднение результата в элементе по общему узлу (усреднение по умол. не elemental mean?)
+    ETABLE, ,BFE,TEMP     
+    !* 2
+    AVPRIN,0, , 
+    ETABLE, ,EPEL,1 
+    !*3 
+    AVPRIN,0, , 
+    ETABLE, ,EPEL,2
+    !* 4 
+    AVPRIN,0, , 
+    ETABLE, ,EPEL,3
+	!*  5
+    AVPRIN,0, , 
+    ETABLE, ,EPEL,EQV 
+	!*6  
+    AVPRIN,0, , 
+    ETABLE, ,EPEL,X
+	!* 7 
+    AVPRIN,0, , 
+    ETABLE, ,EPEL,Y 
+	!*8  
+    AVPRIN,0, , 
+    ETABLE, ,EPEL,Z
+	!*9  
+    AVPRIN,0, , 
+    ETABLE, ,EPEL,XY 
+	!* 10 
+    AVPRIN,0, , 
+    ETABLE, ,EPEL,YZ 
+	!* 11 
+    AVPRIN,0, , 
+    ETABLE, ,EPEL,XZ
+	!* 12 
+    AVPRIN,0, , 
+    ETABLE, ,EPPL,1 
+	!* 13 
+    AVPRIN,0, , 
+    ETABLE, ,EPPL,2 
+!*  14
+    AVPRIN,0, , 
+    ETABLE, ,EPPL,3 
+!*  15
+    AVPRIN,0, , 
+    ETABLE, ,EPPL,EQV 
+!*  16
+    AVPRIN,0, , 
+    ETABLE, ,EPPL,X 
+!*  17
+    AVPRIN,0, , 
+    ETABLE, ,EPPL,Y 
+!*  18
+    AVPRIN,0, , 
+    ETABLE, ,EPPL,Z 
+!*  19
+    AVPRIN,0, , 
+    ETABLE, ,EPPL,XY 
+!* 20 
+    AVPRIN,0, , 
+    ETABLE, ,EPPL,YZ
+	!*  21
+    AVPRIN,0, , 
+    ETABLE, ,EPPL,XZ
+	!* 22
+    AVPRIN,0, , 
+    ETABLE, ,EPTO,1 
+	!*  23
+    AVPRIN,0, , 
+    ETABLE, ,EPTO,2 
+!*  24
+    AVPRIN,0, , 
+    ETABLE, ,EPTT,3 
+!*  25
+    AVPRIN,0, , 
+    ETABLE, ,EPTT,EQV 
+!*  26
+    AVPRIN,0, , 
+    ETABLE, ,EPTT,X 
+!*  27
+    AVPRIN,0, , 
+    ETABLE, ,EPTT,Y 
+!*  28
+    AVPRIN,0, , 
+    ETABLE, ,EPTT,Z 
+!*  29
+    AVPRIN,0, , 
+    ETABLE, ,EPTT,XY 
+!*  30
+    AVPRIN,0, , 
+    ETABLE, ,EPTT,YZ
+	!*31  
+    AVPRIN,0, , 
+    ETABLE, ,EPTT,XZ
+	!* 32
+    AVPRIN,0, , 
+    ETABLE, ,S,1 
+	!*33  
+    AVPRIN,0, , 
+    ETABLE, ,S,2 
+!*  34
+    AVPRIN,0, , 
+    ETABLE, ,S,3 
+!*  35
+    AVPRIN,0, , 
+    ETABLE, ,S,EQV 
+!*  36
+    AVPRIN,0, , 
+    ETABLE, ,S,X 
+!*  37
+    AVPRIN,0, , 
+    ETABLE, ,S,Y 
+!*  38
+    AVPRIN,0, , 
+    ETABLE, ,S,Z 
+!*  39
+    AVPRIN,0, , 
+    ETABLE, ,S,XY 
+!*  40
+    AVPRIN,0, , 
+    ETABLE, ,S,YZ
+	!*  41
+    AVPRIN,0, , 
+    ETABLE, ,S,XZ
+
+    ETABLE,REFL !заполнение таблицы/заполнить все таблицы определенные до этого с помощью ETABLE
+ 
+    	*GET,temp,ETAB,1,ELEM,number_of_elem(i) !получить/название получаемого результата/из списков ETABLE/присвоение номера получаемому результату/работать с элементами/номер i-ого элемента
+  	*GET,eu1,ETAB,2,ELEM,number_of_elem(i) 
+  	*GET,eu2,ETAB,3,ELEM,number_of_elem(i)
+  	*GET,eu3,ETAB,4,ELEM,number_of_elem(i)
+   	*GET,eeeqv,ETAB,5,ELEM,number_of_elem(i)
+   	*GET,euX,ETAB,6,ELEM,number_of_elem(i)
+   	*GET,euY,ETAB,7,ELEM,number_of_elem(i)
+   	*GET,euZ,ETAB,8,ELEM,number_of_elem(i)
+    	*GET,euXY,ETAB,9,ELEM,number_of_elem(i)
+	*GET,euYZ,ETAB,10,ELEM,number_of_elem(i)
+	*GET,euXZ,ETAB,11,ELEM,number_of_elem(i)
+	*GET,ep1,ETAB,12,ELEM,number_of_elem(i) 
+  	*GET,ep2,ETAB,13,ELEM,number_of_elem(i)
+  	*GET,ep3,ETAB,14,ELEM,number_of_elem(i)
+   	*GET,epeqv,ETAB,15,ELEM,number_of_elem(i)
+   	*GET,epX,ETAB,16,ELEM,number_of_elem(i)
+   	*GET,epY,ETAB,17,ELEM,number_of_elem(i)
+   	*GET,epZ,ETAB,18,ELEM,number_of_elem(i)
+    	*GET,epXY,ETAB,19,ELEM,number_of_elem(i)
+	*GET,epYZ,ETAB,20,ELEM,number_of_elem(i)
+	*GET,epXZ,ETAB,21,ELEM,number_of_elem(i)
+	*GET,et1,ETAB,22,ELEM,number_of_elem(i) 
+  	*GET,et2,ETAB,23,ELEM,number_of_elem(i)
+  	*GET,et3,ETAB,24,ELEM,number_of_elem(i)
+   	*GET,eteqv,ETAB,25,ELEM,number_of_elem(i)
+   	*GET,etX,ETAB,26,ELEM,number_of_elem(i)
+   	*GET,etY,ETAB,27,ELEM,number_of_elem(i)
+   	*GET,etZ,ETAB,28,ELEM,number_of_elem(i)
+    	*GET,etXY,ETAB,29,ELEM,number_of_elem(i)
+	*GET,etYZ,ETAB,30,ELEM,number_of_elem(i)
+	*GET,etXZ,ETAB,31,ELEM,number_of_elem(i)
+	*GET,S1,ETAB,32,ELEM,number_of_elem(i) 
+  	*GET,S2,ETAB,33,ELEM,number_of_elem(i)
+  	*GET,S3,ETAB,34,ELEM,number_of_elem(i)
+   	*GET,Seqv,ETAB,35,ELEM,number_of_elem(i)
+   	*GET,SX,ETAB,36,ELEM,number_of_elem(i)
+   	*GET,SY,ETAB,37,ELEM,number_of_elem(i)
+   	*GET,SZ,ETAB,38,ELEM,number_of_elem(i)
+    	*GET,SXY,ETAB,39,ELEM,number_of_elem(i)
+	*GET,SYZ,ETAB,40,ELEM,number_of_elem(i)
+	*GET,SXZ,ETAB,41,ELEM,number_of_elem(i)
+    num=number_of_elem(i)
+    
+    lliisstt(st,1)=set_numbers(n)         !заполнение таблички в 41 столбtw - 41 основных параметров для каждого следующего элемента КЭМ,         
+    lliisstt(st,2)=number_of_elem(i) !каждая следующая строчка - номер каждого следующего элемента КЭМ
+    lliisstt(st,3)=temp
+    lliisstt(st,4)=eu1
+    lliisstt(st,5)=eu2
+    lliisstt(st,6)=eu3
+    lliisstt(st,7)=eeeqv
+    lliisstt(st,8)=euX
+    lliisstt(st,9)=euY
+    lliisstt(st,10)=euZ
+    lliisstt(st,11)=euXY
+    lliisstt(st,12)=euYZ
+    lliisstt(st,13)=euXZ
+    lliisstt(st,14)=ep1
+    lliisstt(st,15)=ep2
+    lliisstt(st,16)=ep3
+    lliisstt(st,17)=epeqv
+    lliisstt(st,18)=epX
+    lliisstt(st,19)=epY
+    lliisstt(st,20)=epZ
+    lliisstt(st,21)=epXY
+    lliisstt(st,22)=epYZ
+    lliisstt(st,23)=epXZ
+    lliisstt(st,24)=et1
+    lliisstt(st,25)=et2
+    lliisstt(st,26)=et3
+    lliisstt(st,27)=eteqv
+    lliisstt(st,28)=etX
+    lliisstt(st,29)=etY
+    lliisstt(st,30)=etZ
+    lliisstt(st,31)=etXY
+    lliisstt(st,32)=etYZ
+    lliisstt(st,33)=etXZ
+    lliisstt(st,34)=S1
+    lliisstt(st,35)=S2
+    lliisstt(st,36)=S3
+    lliisstt(st,37)=Seqv
+    lliisstt(st,38)=SX
+    lliisstt(st,39)=SY
+    lliisstt(st,40)=SZ
+    lliisstt(st,41)=SXY
+    lliisstt(st,42)=SYZ
+    lliisstt(st,43)=SXZ
+    st=st+1
+    
+*enddo
+*enddo
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*cfopen,'E:\test_out1_1',txt !открыть файл для записи/имя файла/расширение файла
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*vwrite,lliisstt(1,1),lliisstt(1,2),lliisstt(1,3),lliisstt(1,4),lliisstt(1,5),lliisstt(1,6),lliisstt(1,7),lliisstt(1,8),lliisstt(1,9),lliisstt(1,10),lliisstt(1,11),lliisstt(1,12),lliisstt(1,13),lliisstt(1,14),lliisstt(1,15),lliisstt(1,16),lliisstt(1,17),lliisstt(1,18),lliisstt(1,19),lliisstt(1,20)!записать файл в следующей последовательности/имя массива(i;j)
+(' 'f4.0,' 'f8.0,' 'f4.0,' 'E10.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,) 
+*cfclos !закончить запись файла
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*cfopen,'E:\test_out1_2',txt !открыть файл для записи/имя файла/расширение файла
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*vwrite,lliisstt(1,21),lliisstt(1,22),lliisstt(1,23),lliisstt(1,24),lliisstt(1,25),lliisstt(1,26),lliisstt(1,27),lliisstt(1,28),lliisstt(1,29),lliisstt(1,30),lliisstt(1,31),lliisstt(1,32),lliisstt(1,33),lliisstt(1,34),lliisstt(1,35),lliisstt(1,36),lliisstt(1,37),lliisstt(1,38),lliisstt(1,39),lliisstt(1,40),lliisstt(1,41),lliisstt(1,42),lliisstt(1,43) !записать файл в следующей последовательности/имя массива(i;j)
+(' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,' 'E15.5,) 
+*cfclos !закончить запись файла
