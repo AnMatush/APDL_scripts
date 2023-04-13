@@ -1,0 +1,23 @@
+esel,s,elem,,3643245
+cm,RVD,ELEM
+allsel,all
+esel,s,elem,,3643246
+cm,RND,ELEM
+allsel,all
+
+f0 = 70e-6
+f,5293790,fy,-0,0.00251
+f,5293790,fz,-0.00251,-0
+f,5293788,fy,-0,0.00323
+f,5293788,fz,-0.00323,-0
+antype,harmic
+synchro,,RVD
+nsubst,500
+harfrq,,500  ! implicitly defines OMEGA for Coriolis calculation
+kbc,1
+dmpstr,0.01
+CMOMEGA,RND,631.22,,
+CMOMEGA,RVD,1393.53,,
+coriolis,on,,,on 
+solve
+finish
