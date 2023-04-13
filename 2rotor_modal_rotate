@@ -1,0 +1,58 @@
+/solu !Вход в модуль решения Solution
+/NERR,-1,99999999,,0
+antype,modal !Выбор модального анализа
+modopt,qrdamp,260,,,on !Настройка решателя QRDAMP, расчёт 30 форм
+mxpand,260,,,yes !Число сохраняемых форм
+coriolis,on,,,on !Включение учёта гироскопического эффекта
+!в неподвижной СК
+
+esel,s,elem,,3643246
+cm,RND,ELEM
+allsel,all
+esel,s,elem,,3643245
+cm,RVD,ELEM
+allsel,all
+CMOMEGA,RND,0.001,,
+CMOMEGA,RVD,0.001,,
+solve !Выполнение расчёта
+CMOMEGA,RND,121.68,,
+CMOMEGA,RVD,322.09,,
+solve !Выполнение расчёта
+CMOMEGA,RND,243.37,,
+CMOMEGA,RVD,644.18,,
+solve !Выполнение расчёта
+CMOMEGA,RND,486.74,,
+CMOMEGA,RVD,1288.37,,
+solve !Выполнение расчёта
+CMOMEGA,RND,631.22,,
+CMOMEGA,RVD,1393.53,,
+solve !Выполнение расчёта
+CMOMEGA,RND,775.71,,
+CMOMEGA,RVD,1498.70,,
+solve !Выполнение расчёта
+CMOMEGA,RND,1064.69,,
+CMOMEGA,RVD,1709.03,,
+solve !Выполнение расчёта
+CMOMEGA,RND,1132.23,,
+CMOMEGA,RVD,1750.81,,
+solve !Выполнение расчёта
+CMOMEGA,RND,1199.77,,
+CMOMEGA,RVD,1792.59,,
+solve !Выполнение расчёта
+CMOMEGA,RND,1334.86,,
+CMOMEGA,RVD,1876.16,,
+solve !Выполнение расчёта
+CMOMEGA,RND,1348.29,,
+CMOMEGA,RVD,1884.12,,
+solve !Выполнение расчёта
+CMOMEGA,RND,1361.72,,
+CMOMEGA,RVD,1892.08,,
+solve !Выполнение расчёта
+CMOMEGA,RND,1388.58,,
+CMOMEGA,RVD,1907.99,,
+solve !Выполнение расчёта
+finish !Выход из модуля Solution
+
+/POST1
+PRCAMP,1,,,,RND,,ON,ON
+PRCAMP,1,,,,RVD,,ON,ON
