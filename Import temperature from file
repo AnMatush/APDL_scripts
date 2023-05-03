@@ -1,0 +1,17 @@
+CMSEL,S,RVD_N,NODE !ВЫБОР ИМЕННОВАННОГО НАБОРА УЗЛОВ РВД 
+*GET,NUM_OF_NODE,NODE,,COUNT	!ЧИСЛО ЭЛЕМЕНТОВ НА ВЫБРАННОЙ ПОВЕРХНОСТИ
+*VGET,NUMBER_OF_NODE,NODE,,NLIST !получение числа узлов
+*DIM,Numbers1,ARRAY,NUM_OF_NODE,1 !создание массива узлов
+*DIM,Temperatures1,ARRAY,NUM_OF_NODE,1 !создание массива температур
+*VREAD,Numbers1,'D:\ПОЛНАЯ МОДЕЛЬ (ПО 3 ТОЧКИ)\DynSys(AI-222-25)\RVD_1733_node',TXT,,IJK,1260433,1 !чтение из текстового файла номеров узлов с температурами
+ (E40.0)
+*CFCLOS !окончание чтения
+*VREAD,Temperatures1,'D:\ПОЛНАЯ МОДЕЛЬ (ПО 3 ТОЧКИ)\DynSys(AI-222-25)\RVD_1733_temp',TXT,,IJK,1260433,1 !чтение из файла температур
+ (E40.3)
+*CFCLOS !окончание чтения
+!!! присвоение узлам импортированной температуры
+*DO,I,1,NUM_OF_NODE
+BF,Numbers1(i),TEMP,Temperatures1(i)
+*ENDDO
+!!!!!!!!!
+ALLSEL,ALL
