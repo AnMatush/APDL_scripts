@@ -1,0 +1,123 @@
+/solu !Вход в модуль решения Solution
+/NERR,-1,99999999,,0
+antype,modal !Выбор модального анализа
+modopt,qrdamp,60,,,on !Настройка решателя QRDAMP, расчёт 30 форм
+mxpand,60 !Число сохраняемых форм
+coriolis,on,,,on !Включение учёта гироскопического эффекта
+!в неподвижной СК
+
+! ПЕРВАЯ ТОЧКА !
+
+CMOMEGA,RND,0.001,,
+CMOMEGA,RVD,0.001,,
+
+SOLVE !ВЫПОЛНЕНИЕ РАСЧЁТА
+
+! ВТОРАЯ ТОЧКА !
+
+CMOMEGA,RND,1064.69,,
+CMOMEGA,RVD,1709.03,,
+
+CMSEL,S,RVD_N,NODE
+*GET,NUM_OF_NODE,NODE,,COUNT	!ЧИСЛО ЭЛЕМЕНТОВ НА ВЫБРАННОЙ ПОВЕРХНОСТИ
+*VGET,NUMBER_OF_NODE,NODE,,NLIST
+
+*DIM,Numbers1,ARRAY,NUM_OF_NODE,1
+*DIM,Temperatures1,ARRAY,NUM_OF_NODE,1
+
+*VREAD,Numbers1,'D:\ПОЛНАЯ МОДЕЛЬ (ПО 3 ТОЧКИ)\DynSys(AI-222-25)\RVD_1733_node',TXT,,IJK,1260433,1
+ (E40.0)
+*CFCLOS
+*VREAD,Temperatures1,'D:\ПОЛНАЯ МОДЕЛЬ (ПО 3 ТОЧКИ)\DynSys(AI-222-25)\RVD_1733_temp',TXT,,IJK,1260433,1
+ (E40.3)
+*CFCLOS
+
+*status,Numbers1,1,5
+*status,Temperatures1,1,5
+
+*DO,I,1,NUM_OF_NODE
+BF,Numbers1(i),TEMP,Temperatures1(i)
+*ENDDO
+ALLSEL,ALL
+
+CMSEL,S,RND_N,NODE
+*GET,NUM_OF_NODE1,NODE,,COUNT	!ЧИСЛО ЭЛЕМЕНТОВ НА ВЫБРАННОЙ ПОВЕРХНОСТИ
+*VGET,NUMBER_OF_NODE1,NODE,,NLIST
+
+*DIM,Numbers2,ARRAY,NUM_OF_NODE,1
+*DIM,Temperatures2,ARRAY,NUM_OF_NODE,1
+
+
+*VREAD,Numbers2,'D:\ПОЛНАЯ МОДЕЛЬ (ПО 3 ТОЧКИ)\DynSys(AI-222-25)\RND_1733_node',TXT,,IJK,654430,1
+ (E40.0)
+*CFCLOS
+*VREAD,Temperatures2,'D:\ПОЛНАЯ МОДЕЛЬ (ПО 3 ТОЧКИ)\DynSys(AI-222-25)\RND_1733_temp',TXT,,IJK,654430,1
+ (E40.3)
+*CFCLOS
+
+
+
+*DO,I,1,NUM_OF_NODE1
+BF,Numbers2(i),TEMP,Temperatures2(i)
+*ENDDO
+ALLSEL,ALL
+
+SOLVE !ВЫПОЛНЕНИЕ РАСЧЁТА
+
+! ТРЕТЬЯ ТОЧКА !
+
+CMOMEGA,RND,1388.58,,
+CMOMEGA,RVD,1907.99,,
+
+CMSEL,S,RVD_N,NODE
+*GET,NUM_OF_NODE,NODE,,COUNT	!ЧИСЛО ЭЛЕМЕНТОВ НА ВЫБРАННОЙ ПОВЕРХНОСТИ
+*VGET,NUMBER_OF_NODE,NODE,,NLIST
+
+*DIM,Numbers1,ARRAY,NUM_OF_NODE,1
+*DIM,Temperatures1,ARRAY,NUM_OF_NODE,1
+
+*VREAD,Numbers1,'D:\ПОЛНАЯ МОДЕЛЬ (ПО 3 ТОЧКИ)\DynSys(AI-222-25)\RVD_1146_node',TXT,,IJK,1260433,1
+ (E40.0)
+*CFCLOS
+*VREAD,Temperatures1,'D:\ПОЛНАЯ МОДЕЛЬ (ПО 3 ТОЧКИ)\DynSys(AI-222-25)\RVD_1146_temp',TXT,,IJK,1260433,1
+ (E40.3)
+*CFCLOS
+
+*status,Numbers1,1,5
+*status,Temperatures1,1,5
+
+*DO,I,1,NUM_OF_NODE
+BF,Numbers1(i),TEMP,Temperatures1(i)
+*ENDDO
+ALLSEL,ALL
+
+CMSEL,S,RND_N,NODE
+*GET,NUM_OF_NODE1,NODE,,COUNT	!ЧИСЛО ЭЛЕМЕНТОВ НА ВЫБРАННОЙ ПОВЕРХНОСТИ
+*VGET,NUMBER_OF_NODE1,NODE,,NLIST
+
+
+
+*VREAD,Numbers2,'D:\ПОЛНАЯ МОДЕЛЬ (ПО 3 ТОЧКИ)\DynSys(AI-222-25)\RND_1146_node',TXT,,IJK,654430,1
+ (E40.0)
+*CFCLOS
+*VREAD,Temperatures2,'D:\ПОЛНАЯ МОДЕЛЬ (ПО 3 ТОЧКИ)\DynSys(AI-222-25)\RND_1146_temp',TXT,,IJK,654430,1
+ (E40.3)
+*CFCLOS
+
+
+
+*DO,I,1,NUM_OF_NODE1
+BF,Numbers2(i),TEMP,Temperatures2(i)
+*ENDDO
+ALLSEL,ALL
+
+SOLVE !ВЫПОЛНЕНИЕ РАСЧЁТА
+
+finish !Выход из модуля Solution
+
+/POST1
+/NERR,-1,99999999,,0
+PRCAMP,1,,,,RND,,ON,ON
+!*STATUS,PRCAMP
+!*STATUS,ALL
+PRCAMP,1,,,,RVD,,ON,ON
